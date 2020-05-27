@@ -11,7 +11,9 @@ mac = sys.argv[1]   #sets parameter as command line input
 
 def finder(mac):
 
-    url = ("https://api.macaddress.io/v1?apiKey=at_B7Gkr4HpshszzxM2rSHKNUtDEREpE&output=json&search=" + mac)
+    url = ("https://api.macaddress.io/v1?apiKey=at_B7Gkr4HpshszzxM2rSHKNUtDEREpE&output=json&search=" + mac)    #hardcoded my own api key for ease of access but normally would require individual key
+
+
     
     try:
         r = requests.get(url, timeout = 10) #api call and response creation
@@ -25,7 +27,7 @@ def finder(mac):
         print ("Connection Error:", connectError) 
         sys.exit(1)
 
-    except requests.exceptions.Timeout as timeOutError:  #raises erro if connection takes longer than 10s
+    except requests.exceptions.Timeout as timeOutError:  #raises error if connection takes longer than 10s
         print ("Timeout Error:", timeOutError) 
 
     except requests.exceptions.RequestException as reqError:  #raises for all other errors
