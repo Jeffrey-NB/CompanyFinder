@@ -23,7 +23,7 @@ def finder(mac):
     except requests.exceptions.HTTPError as httpError:  #raises error if request returned unsuccessful status code
         print ("Http Error:", httpError) 
 
-    except requests.exceptions.ConnectionError as connectError:  #raises error if there is connection issue //bug: causes unbound error if raised
+    except requests.exceptions.ConnectionError as connectError:  #raises error if there is connection issue
         print ("Connection Error:", connectError) 
         sys.exit(1)
 
