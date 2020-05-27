@@ -14,29 +14,43 @@ def finder(mac):
     url = ("https://api.macaddress.io/v1?apiKey=at_B7Gkr4HpshszzxM2rSHKNUtDEREpE&output=json&search=" + mac)
     
     try:
-        r = requests.get(url, timeout = 25)
+        r = requests.get(url, timeout = 10) #api call and response creation
+
         r.raise_for_status()
-    except requests.exceptions.HTTPError as httpError: 
-        print ("Http Error:",httpError) 
-    except requests.exceptions.ConnectionError as connectError: 
-        print ("Connection Error:",connectError) 
-    except requests.exceptions.Timeout as timeOutError: 
-        print ("Timeout Error:",timeOutError) 
-    except requests.exceptions.RequestException as reqError: 
-        print ("Unknown Error:",reqError) 
+
+    except requests.exceptions.HTTPError as httpError:  #raises error if request returned unsuccessful status code
+        print ("Http Error:", httpError) 
+
+    except requests.exceptions.ConnectionError as connectError:  #raises error if there is connection issue //bug: causes unbound error if raised
+        print ("Connection Error:", connectError) 
+        sys.exit(1)
+
+    except requests.exceptions.Timeout as timeOutError:  #raises erro if connection takes longer than 10s
+        print ("Timeout Error:", timeOutError) 
+
+    except requests.exceptions.RequestException as reqError:  #raises for all other errors
+        print ("Unknown Error:", reqError) 
         sys.exit(1)
 
     statusCode = r.status_code
 
-    if statusCode != 200:
-        print(statusCode)
+    if statusCode != 200:                       #prints out status code if not 200(all good status)
+        print('Status Code: ', statusCode)
         sys.exit(1)
 
-    data = r.json()
+    try:
 
-    company = data['vendorDetails']['companyName']
+        data = r.json()
 
-    print('Company Name: ' + company)
+        company = data['vendorDetails']['companyName']
+
+        print('Company Name: ' + company)
+    except ValueError:
+        print('Invalid Data Received')
+
+    except Exception as e:
+        print('Error Occured: \n' + str(e))
+
 
 finder(mac)
 
