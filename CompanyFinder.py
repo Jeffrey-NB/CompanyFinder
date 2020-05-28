@@ -2,7 +2,14 @@ import json
 import requests
 import sys
 
-mac = sys.argv[1]   #sets parameter as command line input
+import argparse
+
+p = argparse.ArgumentParser(description='Company from MAC Address')
+p.add_argument("-mac", type=str, required=True)
+args = p.parse_args()
+
+mac = args.mac #convert from namespace to string
+
 
 # Function Name: Finder
 # Purpose: Takes in command line parameter of MAC address and outputs corresponding company name
@@ -47,6 +54,7 @@ def finder(mac):
         company = data['vendorDetails']['companyName']
 
         print('Company Name: ' + company)
+
     except ValueError:
         print('Invalid Data Received')
 
